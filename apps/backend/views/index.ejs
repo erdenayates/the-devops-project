@@ -41,14 +41,20 @@
       <th>ID</th>
       <th>Name</th>
       <th>Surname</th>
-      <th>Order ID</th> <!-- New header -->
+      <th>Order ID</th>
+      <th>Email</th> <!-- New header -->
+      <th>Order Date</th> <!-- New header -->
+      <th>Product Name</th> <!-- New header -->
     </tr>
     <% customers.forEach(customer => { %>
       <tr>
         <td><%= customer.customerid %></td>
         <td><%= customer.customername %></td>
         <td><%= customer.customersurname %></td>
-        <td><%= customer.customerorderid %></td> <!-- New data cell -->
+        <td><%= customer.customerorderid %></td>
+        <td><%= customer.customeremail %></td> <!-- New data cell -->
+        <td><%= customer.orderdate %></td> <!-- New data cell -->
+        <td><%= customer.productname %></td> <!-- New data cell -->
       </tr>
     <% }); %>
   </table>
