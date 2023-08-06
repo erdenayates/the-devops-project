@@ -26,7 +26,7 @@ resource "aws_db_subnet_group" "postgresql_subnet_group" {
 resource "aws_db_instance" "postgresql_database" {
   identifier                = "postgresql-database"
   engine                    = "postgres"
-  engine_version            = "15.3"
+  engine_version            = "14.8"
   instance_class            = "db.t4g.micro"
   allocated_storage         = 20
   storage_type              = "gp2"
@@ -36,7 +36,7 @@ resource "aws_db_instance" "postgresql_database" {
   db_subnet_group_name      = aws_db_subnet_group.postgresql_subnet_group.name
   publicly_accessible       = false
   availability_zone         = "us-east-2a"
-  parameter_group_name      = "default.postgres15"
+  parameter_group_name      = "default.postgres14"
   deletion_protection       = true
   skip_final_snapshot       = true
 }

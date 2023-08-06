@@ -31,6 +31,8 @@ resource "aws_instance" "postgresql_data_import_server" {
     #!/bin/bash
     apt-get update
     apt-get install -y postgresql-client
+    curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+    sudo chmod 666 /var/run/docker.sock
   EOF
 
   root_block_device {
