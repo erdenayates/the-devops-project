@@ -41,15 +41,16 @@
       <th>ID</th>
       <th>Name</th>
       <th>Surname</th>
+      <th>Order ID</th> <!-- New header -->
     </tr>
     <% customers.forEach(customer => { %>
       <tr>
         <td><%= customer.customerid %></td>
         <td><%= customer.customername %></td>
         <td><%= customer.customersurname %></td>
+        <td><%= customer.customerorderid %></td> <!-- New data cell -->
       </tr>
     <% }); %>
   </table>
 </body>
 </html>
-
