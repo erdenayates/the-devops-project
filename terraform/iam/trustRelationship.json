@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "codebuild.amazonaws.com",
+        "AWS": "arn:aws:iam::792334107397:user/jenkins-job-user"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
