@@ -1,0 +1,25 @@
+version: 0.2
+
+env:
+  variables:
+    MY_ENV_VARIABLE: "SomeValue"
+
+phases:
+  install:
+    commands:
+      - echo "This is the install phase. Here you might install any global dependencies."
+  pre_build:
+    commands:
+      - echo "This is the pre-build phase. Here you might run tasks like fetching dependencies, etc."
+  build:
+    commands:
+      - echo "This is the build phase. This is where you'd compile, run tests, etc."
+  post_build:
+    commands:
+      - echo "This is the post-build phase. Here you might do tasks like cleanup or prepare artifacts for deployment."
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'output/'
+

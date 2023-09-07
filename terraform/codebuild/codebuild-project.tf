@@ -98,8 +98,8 @@ resource "aws_codebuild_project" "jenkins_job" {
                      phases:
                        build:
                          commands:
-                           - echo Running
-                           - echo Stopping
+                           - docker
+                           - docker ps
                            - sleep 60
                            - echo Done
                      EOT
