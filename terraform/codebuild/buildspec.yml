@@ -4,8 +4,7 @@ phases:
   pre_build:
     commands:
       - echo "Installing Docker"
-      - curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
-      - service docker start
+      - cat /etc/os-release
       - docker --version
       - echo "Cloning GitHub repository"
       - git clone https://github.com/erdenayates/the-devops-project.git
