@@ -3,7 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - ls -la /var/run/
+      - systemctl start docker
       - docker --version
       - echo "Cloning GitHub repository"
       - git clone https://github.com/erdenayates/the-devops-project.git
