@@ -14,7 +14,10 @@ phases:
   build:
     commands:
       - pwd
-      - chmod 666 /var/run/docker.sock
+      - systemctl status docker
+      - systemctl start docker
+      - systemctl status docker
+      - ls -la /var/run/
       - echo "Building Docker image"
       - docker build -t backend .
       - docker tag backend:latest public.ecr.aws/h2n4d7m6/backend:latest
