@@ -5,10 +5,10 @@ import random
 fake = Faker()
 
 connection = psycopg2.connect(
-    host="postgresql-database.cvwuww9ibcxn.us-east-2.rds.amazonaws.com",
+    host="postgresql-database.cysdx5j6qo9f.us-east-2.rds.amazonaws.com",
     database="data",
     user="postgres",
-    password="jb3a6ebZnFIvAdVkY6fDT"
+    password="postgres"
 )
 
 cursor = connection.cursor()

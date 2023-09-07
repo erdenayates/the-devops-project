@@ -1,14 +1,14 @@
 const express = require('express');
 const { Pool } = require('pg');
 const app = express();
-const port = 3000;
+const port = 80;
 
 // PostgreSQL connection
 const pool = new Pool({
-  host: 'postgresql-database.cvwuww9ibcxn.us-east-2.rds.amazonaws.com',
+  host: 'postgresql-database.cysdx5j6qo9f.us-east-2.rds.amazonaws.com',
   database: 'data',
   user: 'postgres',
-  password: 'jb3a6ebZnFIvAdVkY6fDT',
+  password: 'postgres',
 });
 
 // Set up EJS for templating

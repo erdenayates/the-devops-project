@@ -1,0 +1,17 @@
+psql -h AWS.RDS.ENDPOINT.us-east-2.rds.amazonaws.com -d postgres -U postgres -p 5432
+
+CREATE DATABASE data;
+
+\c data
+
+CREATE TABLE customer_data (
+    customerId SERIAL PRIMARY KEY,
+    customerName VARCHAR(255) NOT NULL,
+    customerSurname VARCHAR(255) NOT NULL,
+    customerOrderId INTEGER NOT NULL,
+    customerEmail VARCHAR(255) NOT NULL,
+    orderDate TIMESTAMP NOT NULL,
+    productName VARCHAR(255) NOT NULL
+);
+
+
