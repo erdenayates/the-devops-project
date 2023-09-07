@@ -167,3 +167,24 @@ resource "aws_iam_policy" "codebuild_ec2_permissions" {
 	]
   })
 }
+
+resource "aws_iam_policy" "allow_jenkins_user_assume_codebuild_role" {
+  name        = "AllowJenkinsUserAssumeCodeBuildRole"
+  description = "Allow Jenkins user to assume the CodeBuild role"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action   = "sts:AssumeRole",
+        Effect   = "Allow",
+        Resource = aws_iam_role.codebuild_role.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "jenkins_user_assume_codebuild_role_attachment" {
+  user       = "jenkins-job-user"
+  policy_arn = aws_iam_policy.allow_jenkins_user_assume_codebuild_role.arn
+}
