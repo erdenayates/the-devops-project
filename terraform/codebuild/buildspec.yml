@@ -1,9 +1,19 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      # Update and install required packages
+      - apk update
+      - apk add --no-cache git docker openrc python3 py3-pip
+      - service docker start
+      - rc-update add docker boot
+      # Install AWS CLI
+      - pip3 install awscli --upgrade
+
   pre_build:
     commands:
-      - systemctl start docker
+      - service --status-all 
       - docker --version
       - echo "Cloning GitHub repository"
       - git clone https://github.com/erdenayates/the-devops-project.git

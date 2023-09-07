@@ -85,7 +85,7 @@ resource "aws_codebuild_project" "jenkins_job" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_MEDIUM" # 3GB Memory, 2 vCPUs
-    image                       = "aws/codebuild/standard:7.0"
+    image                       = "alpine:3.18.3"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = false
