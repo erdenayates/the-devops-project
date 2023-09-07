@@ -1,25 +1,29 @@
 version: 0.2
 
-env:
-  variables:
-    MY_ENV_VARIABLE: "SomeValue"
-
 phases:
-  install:
-    commands:
-      - echo "This is the install phase. Here you might install any global dependencies."
   pre_build:
     commands:
-      - echo "This is the pre-build phase. Here you might run tasks like fetching dependencies, etc."
+      - echo "Installing Docker"
+      - curl -fsSL get.docker.com -o get-docker.sh
+      - sh get-docker.sh
+      - docker --version
+      - echo "Cloning GitHub repository"
+      - git clone https://github.com/erdenayates/the-devops-project.git
+      - cd the-devops-project/apps/backend
+      - echo "Logging into AWS ECR Public registry"
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/h2n4d7m6
+  
   build:
     commands:
-      - echo "This is the build phase. This is where you'd compile, run tests, etc."
+      - echo "Building Docker image"
+      - docker build -t backend .
+      - docker tag backend:latest public.ecr.aws/h2n4d7m6/backend:latest
+
   post_build:
     commands:
-      - echo "This is the post-build phase. Here you might do tasks like cleanup or prepare artifacts for deployment."
+      - echo "Pushing Docker image to AWS ECR Public registry"
+      - docker push public.ecr.aws/h2n4d7m6/backend:latest
 
 artifacts:
   files:
     - '**/*'
-  base-directory: 'output/'
-

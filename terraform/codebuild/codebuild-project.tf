@@ -91,19 +91,14 @@ resource "aws_codebuild_project" "jenkins_job" {
     privileged_mode             = false
   }
 
-  source {
-    type            = "NO_SOURCE"
-    buildspec       = <<-EOT
-                     version: 0.2
-                     phases:
-                       build:
-                         commands:
-                           - docker
-                           - docker ps
-                           - sleep 60
-                           - echo Done
-                     EOT
-  }
+source {
+    type                = "GITHUB"
+    location            = "https://github.com/erdenayates/the-devops-project"
+    git_clone_depth     = 1
+    buildspec           = "terraform/codebuild/buildspec.yml"
+    report_build_status = true
+}
+
 
   vpc_config {
     vpc_id = data.aws_vpc.main-vpc.id

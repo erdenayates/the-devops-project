@@ -100,6 +100,31 @@ resource "aws_iam_role_policy" "allow_assume_codebuild_role" {
   })
 }
 
+resource "aws_iam_policy" "codebuild_cloudwatch_logs" {
+  name        = "CodeBuildCloudWatchLogsPermissions"
+  description = "Allow CodeBuild to put log events to CloudWatch Logs"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_cloudwatch_logs_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_cloudwatch_logs.arn
+}
+
 # New Policy to allow ec2:DescribeNetworkInterfaces
 resource "aws_iam_policy" "codebuild_ec2_permissions" {
   name        = "CodeBuildEC2Permissions"
@@ -127,7 +152,7 @@ resource "aws_iam_policy" "codebuild_ec2_permissions" {
 				"ec2:CreateNetworkInterfacePermission",
 				"ec2:DeleteNetworkInterface"
 			],
-			"Resource": "arn:aws:ec2:us-east-2:792334107397:network-interface/*"
+			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
