@@ -5,6 +5,7 @@ phases:
     commands:
       - echo "Installing Docker"
       - curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+      - service docker start
       - docker --version
       - echo "Cloning GitHub repository"
       - git clone https://github.com/erdenayates/the-devops-project.git
