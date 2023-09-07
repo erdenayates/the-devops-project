@@ -3,7 +3,11 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - cat /etc/os-release
+      - pwd
+      - systemctl status docker
+      - systemctl start docker
+      - systemctl status docker
+      - ls -la /var/run/
       - docker --version
       - echo "Cloning GitHub repository"
       - git clone https://github.com/erdenayates/the-devops-project.git
@@ -13,11 +17,6 @@ phases:
   
   build:
     commands:
-      - pwd
-      - systemctl status docker
-      - systemctl start docker
-      - systemctl status docker
-      - ls -la /var/run/
       - echo "Building Docker image"
       - docker build -t backend .
       - docker tag backend:latest public.ecr.aws/h2n4d7m6/backend:latest
