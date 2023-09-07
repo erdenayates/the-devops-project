@@ -6,7 +6,6 @@ phases:
       # Update and install required packages
       - apk update
       - apk add --no-cache git docker openrc python3 py3-pip
-      - service docker start
       - rc-update add docker boot
       # Install AWS CLI
       - pip3 install awscli --upgrade
