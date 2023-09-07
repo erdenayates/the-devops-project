@@ -12,8 +12,6 @@ phases:
 
   pre_build:
     commands:
-      - service --status-all 
-      - docker --version
       - echo "Cloning GitHub repository"
       - git clone https://github.com/erdenayates/the-devops-project.git
       - cd the-devops-project/apps/backend
