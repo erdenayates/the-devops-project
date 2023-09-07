@@ -6,11 +6,6 @@ phases:
       - echo "Installing Docker"
       - cat /etc/os-release
       - docker --version
-      - echo "Cloning GitHub repository"
-      - git clone https://github.com/erdenayates/the-devops-project.git
-      - cd the-devops-project/apps/backend
-      - echo "Logging into AWS ECR Public registry"
-      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/h2n4d7m6
   
   build:
     commands:
