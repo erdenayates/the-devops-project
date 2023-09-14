@@ -4,9 +4,5 @@ phases:
   install:
     commands:
       # Update and install required packages
-      - pwd
-      - ls -la
-      - ls -la /var/run
-      - cat /etc/os-release
-      - docker
-      - docker ps
+      - env
+      - echo $CODEBUILD_BUILD_ID
