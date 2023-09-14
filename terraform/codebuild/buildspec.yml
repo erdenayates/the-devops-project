@@ -8,3 +8,4 @@ phases:
       - ls -la
       - docker
       - docker ps
+      - ls -la /var/run
