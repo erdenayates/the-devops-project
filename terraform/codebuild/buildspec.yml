@@ -7,6 +7,7 @@ phases:
       - cat terraform/codebuild/buildspec.yml
       - # Extract the tag from CODEBUILD_BUILD_ID
       - IMAGE_TAG="${CODEBUILD_BUILD_ID##*-}"
+      - echo $IMAGE_TAG
       # Log in to ECR
       - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/h2n4d7m6
       # Build the Docker image
