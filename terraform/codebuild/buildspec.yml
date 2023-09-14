@@ -6,3 +6,5 @@ phases:
       # Update and install required packages
       - env
       - echo $CODEBUILD_BUILD_ID
+      - IMAGE_TAG="${CODEBUILD_BUILD_ID##*-}"
+      - echo $IMAGE_TAG
