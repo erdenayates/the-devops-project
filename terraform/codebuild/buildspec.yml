@@ -3,8 +3,20 @@ version: 0.2
 phases:
   install:
     commands:
-      # Update and install required packages
-      - env
-      - echo $CODEBUILD_BUILD_ID
+      - # Extract the tag from CODEBUILD_BUILD_ID
       - IMAGE_TAG="${CODEBUILD_BUILD_ID##*-}"
-      - echo $IMAGE_TAG
+      - 
+      - # Log in to ECR
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/h2n4d7m6
+      - 
+      - # Build the Docker image
+      - cd apps/backend/
+      - docker build -t backend .
+      - 
+      - # Tag the Docker image with both latest and the specific ID extracted
+      - docker tag backend:latest public.ecr.aws/h2n4d7m6/backend:latest
+      - docker tag backend:latest public.ecr.aws/h2n4d7m6/backend:$IMAGE_TAG
+      - 
+      - # Push both tags to ECR
+      - docker push public.ecr.aws/h2n4d7m6/backend:latest
+      - docker push public.ecr.aws/h2n4d7m6/backend:$IMAGE_TAG
