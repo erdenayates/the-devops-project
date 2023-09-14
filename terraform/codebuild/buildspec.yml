@@ -4,5 +4,5 @@ phases:
   install:
     commands:
       # Update and install required packages
-      - docker
-      - docker ps
+      - pwd
+      - ls -la
