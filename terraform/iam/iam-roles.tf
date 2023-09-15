@@ -226,6 +226,125 @@ resource "aws_iam_user_policy_attachment" "jenkins_user_assume_codebuild_role_at
   policy_arn = aws_iam_policy.allow_jenkins_user_assume_codebuild_role.arn
 }
 
+resource "aws_iam_policy" "codebuild_terraform_backend_permissions" {
+  name        = "CodeBuildTerraformBackendPermissions"
+  description = "Allow CodeBuild to access the Terraform S3 backend and DynamoDB lock table"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket"
+        ],
+        Effect   = "Allow",
+        Resource = [
+          "arn:aws:s3:::the-lazy-devops-project-tfstate-bucket",
+          "arn:aws:s3:::the-lazy-devops-project-tfstate-bucket/*"
+        ]
+      },
+      {
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:DeleteItem"
+        ],
+        Effect   = "Allow",
+        Resource = "arn:aws:dynamodb:us-east-2:792334107397:table/the-lazy-devops-project-tfstate-lock"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_terraform_backend_permissions_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_terraform_backend_permissions.arn
+}
+
+resource "aws_iam_policy" "codebuild_enhanced_permissions" {
+  name        = "CodeBuildEnhancedPermissions"
+  description = "Custom policy for enhanced CodeBuild operations"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "ec2:CreateTags",
+          "ec2:DescribeDhcpOptions",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribeRouteTables",
+          "ec2:DescribeSecurityGroupRules",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeVpcs",
+          "ecs:DeregisterTaskDefinition",
+          "ecs:DescribeTaskDefinition",
+          "ecs:RegisterTaskDefinition",
+          "elasticloadbalancing:DescribeListeners",
+          "elasticloadbalancing:DescribeLoadBalancerAttributes",
+          "elasticloadbalancing:DescribeLoadBalancers",
+          "elasticloadbalancing:DescribeTags",
+          "elasticloadbalancing:DescribeTargetGroupAttributes",
+          "elasticloadbalancing:DescribeTargetGroups",
+          "sts:GetCallerIdentity",
+          "ec2:CreateNetworkInterface",
+          "ec2:CreateNetworkInterfacePermission",
+          "ec2:DeleteNetworkInterface",
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeVpcAttribute",
+          "ecs:DescribeClusters",
+          "ecs:DescribeServices",
+          "ecs:UpdateService",
+          "logs:CreateLogStream"
+        ],
+        Effect   = "Allow",
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Action = [
+          "iam:GetRole",
+          "iam:ListAttachedRolePolicies",
+          "iam:PassRole"
+        ],
+        Effect = "Allow",
+        Resource =  [
+          "arn:aws:iam::792334107397:role/ecs-service-role",
+          "arn:aws:iam::792334107397:role/ecs-execution-role"
+        ]
+      },
+      {
+        Action = [
+          "ec2:DescribeVpcs"
+        ],
+        Effect   = "Allow",
+        Resource = ["*"]
+      },
+      {
+        Action = [
+          "iam:ListRolePolicies"
+        ],
+        Effect   = "Allow",
+        Resource = [
+          "arn:aws:iam::792334107397:role/ecs-service-role",
+          "arn:aws:iam::792334107397:role/ecs-execution-role"
+        ]
+      }
+    ]
+  })
+}
+
+
+resource "aws_iam_role_policy_attachment" "codebuild_enhanced_permissions_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_enhanced_permissions.arn
+}
+
+
 terraform {
   backend "s3" {
     bucket         = "the-lazy-devops-project-tfstate-bucket"
