@@ -72,7 +72,10 @@ resource "aws_iam_role" "codebuild_role" {
         Action = "sts:AssumeRole",
         Effect = "Allow",
         Principal = {
-          AWS = aws_iam_role.session_manager_role.arn
+          AWS = [
+            aws_iam_role.session_manager_role.arn,
+            "arn:aws:iam::792334107397:user/jenkins-job-user"
+          ]
         }
       }
     ]
@@ -82,6 +85,40 @@ resource "aws_iam_role" "codebuild_role" {
     Name = "codebuild-jenkins-service-role"
   }
 }
+
+
+resource "aws_iam_policy" "codebuild_ecr_public_permissions" {
+  name        = "CodeBuildECRPublicPermissions"
+  description = "Allow CodeBuild to interact with ECR Public Repositories"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "ecr-public:BatchGetImage",
+          "ecr-public:BatchCheckLayerAvailability",
+          "ecr-public:CompleteLayerUpload",
+          "ecr-public:DescribeImages",
+          "ecr-public:DescribeRepositories",
+          "ecr-public:GetDownloadUrlForLayer",
+          "ecr-public:InitiateLayerUpload",
+          "ecr-public:ListImages",
+          "ecr-public:PutImage",
+          "ecr-public:UploadLayerPart"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_ecr_public_permissions_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_ecr_public_permissions.arn
+}
+
 
 # Policy for session-manager-role to assume codebuild-jenkins-service-role
 resource "aws_iam_role_policy" "allow_assume_codebuild_role" {
