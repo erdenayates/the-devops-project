@@ -242,3 +242,13 @@ data "aws_subnet" "app_public_subnet_3" {
     values = ["public-subnet-3"]
   }
 }
+
+terraform {
+  backend "s3" {
+    bucket         = "the-lazy-devops-project-tfstate-bucket"
+    key            = "terraform/ecs/terraform.tfstate"
+    region         = "us-east-2"
+    encrypt        = true
+    dynamodb_table = "the-lazy-devops-project-tfstate-lock"
+  }
+}

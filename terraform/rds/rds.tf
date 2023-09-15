@@ -45,3 +45,13 @@ variable "master_password" {
   description = "The password for the master DB user. This password can contain any printable ASCII character except '/', '\"', or '@'."
   type        = string
 }
+
+terraform {
+  backend "s3" {
+    bucket         = "the-lazy-devops-project-tfstate-bucket"
+    key            = "terraform/rds/terraform.tfstate"
+    region         = "us-east-2"
+    encrypt        = true
+    dynamodb_table = "the-lazy-devops-project-tfstate-lock"
+  }
+}

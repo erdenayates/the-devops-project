@@ -156,3 +156,13 @@ resource "aws_security_group" "generic_load_balancer_security_group" {
     Name = "generic-load-balancer-security-group"
   }
 }
+
+terraform {
+  backend "s3" {
+    bucket         = "the-lazy-devops-project-tfstate-bucket"
+    key            = "terraform/vpc/security-groups/terraform.tfstate"
+    region         = "us-east-2"
+    encrypt        = true
+    dynamodb_table = "the-lazy-devops-project-tfstate-lock"
+  }
+}

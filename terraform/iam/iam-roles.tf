@@ -225,3 +225,13 @@ resource "aws_iam_user_policy_attachment" "jenkins_user_assume_codebuild_role_at
   user       = "jenkins-job-user"
   policy_arn = aws_iam_policy.allow_jenkins_user_assume_codebuild_role.arn
 }
+
+terraform {
+  backend "s3" {
+    bucket         = "the-lazy-devops-project-tfstate-bucket"
+    key            = "terraform/iam/terraform.tfstate"
+    region         = "us-east-2"
+    encrypt        = true
+    dynamodb_table = "the-lazy-devops-project-tfstate-lock"
+  }
+}

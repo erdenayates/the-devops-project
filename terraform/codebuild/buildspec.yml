@@ -5,7 +5,6 @@ phases:
     commands:
       - echo "Context of buildspec.yml"
       - cat terraform/codebuild/buildspec.yml
-      - # Extract the tag from CODEBUILD_BUILD_ID
       - IMAGE_TAG="${CODEBUILD_BUILD_ID##*-}"
       - echo $IMAGE_TAG
       # Log in to ECR
@@ -15,3 +14,10 @@ phases:
       - docker build -t backend .
       - docker tag backend:latest public.ecr.aws/h2n4d7m6/backend:$IMAGE_TAG
       - docker push public.ecr.aws/h2n4d7m6/backend:$IMAGE_TAG
+      # Update the Terraform config
+      - cd ../../terraform/ecs
+      - sed -i "s|public.ecr.aws/h2n4d7m6/backend:[^\"]*|public.ecr.aws/h2n4d7m6/backend:$IMAGE_TAG|" ecs-cluster.tf
+      # Navigate to Terraform directory and apply changes
+      - cd terraform/ecs/
+      - terraform init
+      - terraform apply -auto-approve
