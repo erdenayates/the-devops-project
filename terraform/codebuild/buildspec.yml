@@ -17,7 +17,7 @@ phases:
       # Update the Terraform config
       - cd ../../terraform/ecs
       - sed -i "s|public.ecr.aws/h2n4d7m6/backend:[^\"]*|public.ecr.aws/h2n4d7m6/backend:$IMAGE_TAG|" ecs-cluster.tf
+      - cat ecs-cluster.tf
       # Navigate to Terraform directory and apply changes
-      - cd terraform/ecs/
       - terraform init
       - terraform apply -auto-approve
